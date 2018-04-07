@@ -16,8 +16,14 @@
 package com.example.android.sunshine.data;
 
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.Preference;
+import android.preference.PreferenceGroup;
+import android.preference.PreferenceManager;
 
-public class SunshinePreferences {
+import com.example.android.sunshine.R;
+
+public class SunshinePreferences implements Preference.OnPreferenceChangeListener {
 
     /*
      * Human readable location string, provided by the API.  Because for styling,
@@ -87,9 +93,13 @@ public class SunshinePreferences {
      * "94043,USA" if SharedPreferences have not been implemented yet.
      */
     public static String getPreferredWeatherLocation(Context context) {
-        // TODO (1) Return the user's preferred location
+        //  (1) Return the user's preferred location
+
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+
         /** This will be implemented in a future lesson **/
-        return getDefaultWeatherLocation();
+
+        return sharedPreferences.getString(context.getString(R.string.pref_location_key),"");
     }
 
     /**
@@ -100,8 +110,13 @@ public class SunshinePreferences {
      * @return true If metric display should be used
      */
     public static boolean isMetric(Context context) {
-        // TODO (2) Return true if the user's preference for units is metric, false otherwise
+        //  (2) Return true if the user's preference for units is metric, false otherwise
         /** This will be implemented in a future lesson **/
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        String units = sharedPreferences.getString(context.getString(R.string.pref_units_key), "");
+
+        if (units.equals("") || units.equals(context.getString(R.string.pref_units_imperial)))
+            return  false;
         return true;
     }
 
@@ -137,5 +152,10 @@ public class SunshinePreferences {
     public static double[] getDefaultWeatherCoordinates() {
         /** This will be implemented in a future lesson **/
         return DEFAULT_WEATHER_COORDINATES;
+    }
+
+    @Override
+    public boolean onPreferenceChange(Preference preference, Object newValue) {
+        return false;
     }
 }
