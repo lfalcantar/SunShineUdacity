@@ -15,19 +15,61 @@
  */
 package com.example.android.sunshine.data;
 
+import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
+import com.example.android.sunshine.data.WeatherContract.WeatherEntry;
+
 /**
  * Manages a local database for weather data.
  */
-// TODO (11) Extend SQLiteOpenHelper from WeatherDbHelper
-public class WeatherDbHelper {
+// completed (11) Extend SQLiteOpenHelper from WeatherDbHelper
+public class WeatherDbHelper extends SQLiteOpenHelper{
+    public static final String DATABASE_NAME = "weather.db";
+    public static final int DATABASE_VERSION = 1;
 
-//  TODO (12) Create a public static final String called DATABASE_NAME with value "weather.db"
+    public WeatherDbHelper(Context context){
+        super(context, DATABASE_NAME, null, DATABASE_VERSION);
+    }
 
-//  TODO (13) Create a private static final int called DATABASE_VERSION and set it to 1
+    @Override
+    public void onCreate(SQLiteDatabase db) {
+        String CREATE_TABLE_QUERY ="CREATE TABLE " + WeatherEntry.TABLE_NAME + " (" +
 
-//  TODO (14) Create a constructor that accepts a context and call through to the superclass constructor
+                /*
+                 * WeatherEntry did not explicitly declare a column called "_ID". However,
+                 * WeatherEntry implements the interface, "BaseColumns", which does have a field
+                 * named "_ID". We use that here to designate our table's primary key.
+                 */
+                WeatherEntry._ID               + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
 
-//  TODO (15) Override onCreate and create the weather table from within it
+                WeatherEntry.COLUMN_DATE       + " INTEGER, "                 +
 
-//  TODO (16) Override onUpgrade, but don't do anything within it yet
+                WeatherEntry.COLUMN_WEATHER_ID + " INTEGER, "                 +
+
+                WeatherEntry.COLUMN_MIN_TEMP   + " REAL, "                    +
+                WeatherEntry.COLUMN_MAX_TEMP   + " REAL, "                    +
+
+                WeatherEntry.COLUMN_HUMIDITY   + " REAL, "                    +
+                WeatherEntry.COLUMN_PRESSURE   + " REAL, "                    +
+
+                WeatherEntry.COLUMN_WIND_SPEED + " REAL, "                    +
+                WeatherEntry.COLUMN_DEGREES    + " REAL" + ");";
+        db.execSQL(CREATE_TABLE_QUERY);
+    }
+
+    @Override
+    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+
+    }
+
+//  completed (12) Create a public static final String called DATABASE_NAME with value "weather.db"
+
+//  completed (13) Create a private static final int called DATABASE_VERSION and set it to 1
+
+//  completed (14) Create a constructor that accepts a context and call through to the superclass constructor
+
+//  completed (15) Override onCreate and create the weather table from within it
+
+//  completed (16) Override onUpgrade, but don't do anything within it yet
 }
